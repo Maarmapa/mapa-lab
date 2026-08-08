@@ -1,0 +1,12 @@
+{
+  "name": "Mapa Lab",
+  "description": "Estudio y venta directa de la obra de map (Mario Arturo Maldonado Parra), artista chileno. Catálogo consultable por agentes; cada obra es única y la venta la confirma el artista.",
+  "url": "https://REEMPLAZAR-DOMINIO",
+  "artist": { "name": "map — Mario Arturo Maldonado Parra", "ens": "maarmapa.eth", "web": "https://maarmapa.eth.limo" },
+  "services": [
+    { "type": "mcp", "url": "https://REEMPLAZAR-DOMINIO/api/mcp", "tools": ["search_obras", "get_obra"] }
+  ],
+  "payments": { "human": "link Mercado Pago (CLP)", "agentic": "x402/USDC en Base — fase 2" },
+  "trust": { "erc8004": "pendiente de mint (Identity Registry 0x8004A169FB4a3325136EB29fA0ceB6D2e539a432)", "provenance": "certificados on-chain por obra — en diseño" },
+  "contact": "mario@boykot.cl"
+}

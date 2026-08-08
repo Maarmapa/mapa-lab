@@ -1,0 +1,89 @@
+{
+  "_nota": "Fuente de verdad del catálogo. Portado desde maarmapa-web/data/artworks.json (7 obras reales). precio null = consultar (la tool NUNCA inventa). estado: disponible | reservada | vendida.",
+  "obras": [
+    {
+      "slug": "pachamama-fruits",
+      "titulo": "Pachamama Fruits ©",
+      "tecnica": "Acrílico sobre lino",
+      "medidas": "40 × 140 cm",
+      "anio": 2015,
+      "precio_clp": 6500000,
+      "precio_usd": 6800,
+      "estado": "disponible",
+      "img": "/artworks/pachamama-fruits.jpg",
+      "historia": "Frutos de la tierra como manifiesto. Pachamama Fruits ©, acrílico sobre lino ejecutado en 2015. Original — pieza única Firmado, titulado y fechado al reverso."
+    },
+    {
+      "slug": "globefish",
+      "titulo": "GlobeFish",
+      "tecnica": "Acrílico sobre lienzo",
+      "medidas": "Consultar",
+      "anio": 2024,
+      "precio_clp": 9000000,
+      "precio_usd": 9400,
+      "estado": "disponible",
+      "img": "/artworks/globefish.jpg",
+      "historia": "El globo como océano. El pez como viajero. GlobeFish es una pintura acrílica original que medita sobre la globalización a través de la mirada de un artista urbano chileno. Original — One of a Kind Firmado por el artista al reverso."
+    },
+    {
+      "slug": "strawberry-gummy-plant",
+      "titulo": "Strawberry Gummy Plant ©",
+      "tecnica": "Acrílico sobre lienzo",
+      "medidas": "100 × 100 cm",
+      "anio": 2015,
+      "precio_clp": 7000000,
+      "precio_usd": 7300,
+      "estado": "disponible",
+      "img": "/artworks/strawberry-gummy-plant.jpg",
+      "historia": "Strawberry Gummy Plant ©. Acrílico sobre lienzo 100×100cm. Ejecutado en 2015. Original — pieza única Firmado, titulado y fechado al reverso."
+    },
+    {
+      "slug": "mario-bros-roses",
+      "titulo": "Mario Bros Roses",
+      "tecnica": "Acrílico sobre lienzo",
+      "medidas": "Gran formato — consultar",
+      "anio": 2024,
+      "precio_clp": 50000000,
+      "precio_usd": 52000,
+      "estado": "disponible",
+      "img": "/artworks/mario-bros-roses.jpg",
+      "historia": "Cultura pop reencarnada en pintura. El pixel se vuelve pincelada. Mario Bros Roses es una pintura acrílica de gran formato del artista chileno maarmapa. Original — One of a Kind Firmado por el artista."
+    },
+    {
+      "slug": "cities-0",
+      "titulo": "Cities 0",
+      "tecnica": "Acrílico sobre lienzo",
+      "medidas": "Consultar",
+      "anio": 2024,
+      "precio_clp": 5000000,
+      "precio_usd": 5200,
+      "estado": "disponible",
+      "img": "/artworks/cities-0.jpg",
+      "historia": "El punto de partida. La ciudad antes de ser ciudad — azul, abierta, eléctrica. Cero como origen. Original — One of a Kind Firmado por el artista."
+    },
+    {
+      "slug": "city-love",
+      "titulo": "City Love",
+      "tecnica": "Acrílico sobre lienzo",
+      "medidas": "Consultar",
+      "anio": 2024,
+      "precio_clp": 5000000,
+      "precio_usd": 5200,
+      "estado": "disponible",
+      "img": "/artworks/city-love.jpg",
+      "historia": "El amor como arquitectura. Calles que palpitan, edificios que respiran, una ciudad pintada en oro y negro. Original — One of a Kind Firmado por el artista."
+    },
+    {
+      "slug": "city-og",
+      "titulo": "City OG",
+      "tecnica": "Acrílico sobre lienzo",
+      "medidas": "Consultar",
+      "anio": 2024,
+      "precio_clp": 6700000,
+      "precio_usd": 7000,
+      "estado": "disponible",
+      "img": "/artworks/city-og.jpg",
+      "historia": "La ciudad original. Memoria urbana como trazo colectivo — edificios, calles e infraestructura registrados en acrílico sobre lienzo. Original — One of a Kind Firmado por el artista."
+    }
+  ]
+}
