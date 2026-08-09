@@ -1,12 +1,87 @@
 {
+  "protocolVersion": "0.3.0",
   "name": "Mapa Lab",
   "description": "Estudio y venta directa de la obra de map (Mario Arturo Maldonado Parra), artista chileno. Catálogo consultable por agentes; cada obra es única y la venta la confirma el artista.",
-  "url": "https://mapa-lab.vercel.app",
-  "artist": { "name": "map — Mario Arturo Maldonado Parra", "ens": "maarmapa.eth", "web": "https://maarmapa.eth.limo" },
-  "services": [
-    { "type": "mcp", "url": "https://mapa-lab.vercel.app/api/mcp", "tools": ["search_obras", "get_obra"] }
+  "url": "https://mapa-lab.vercel.app/api/a2a",
+  "version": "0.1.0",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": [
+    "text/plain"
   ],
-  "payments": { "human": "link Mercado Pago (CLP)", "agentic": "x402/USDC en Base — fase 2" },
-  "trust": { "erc8004": "pendiente de mint (Identity Registry 0x8004A169FB4a3325136EB29fA0ceB6D2e539a432)", "provenance": "certificados on-chain por obra — en diseño" },
-  "contact": "mario@boykot.cl"
+  "defaultOutputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "skills": [
+    {
+      "id": "buscar-obras",
+      "name": "Buscar obras",
+      "description": "Busca en el catálogo de map por texto libre (tema, técnica, título) y devuelve las obras con su precio y estado reales.",
+      "tags": [
+        "arte",
+        "catálogo",
+        "búsqueda",
+        "chile"
+      ],
+      "examples": [
+        "obras con flores",
+        "qué hay disponible",
+        "pinturas de ciudades"
+      ]
+    },
+    {
+      "id": "detalle-obra",
+      "name": "Detalle de una obra",
+      "description": "Devuelve el detalle de una obra por su slug: precio, disponibilidad y la historia detrás de la pieza.",
+      "tags": [
+        "arte",
+        "obra",
+        "detalle"
+      ],
+      "examples": [
+        "globefish",
+        "pachamama-fruits"
+      ]
+    }
+  ],
+  "provider": {
+    "organization": "Mapa Lab",
+    "url": "https://mapa-lab.vercel.app"
+  },
+  "documentationUrl": "https://mapa-lab.vercel.app",
+  "preferredTransport": "JSONRPC",
+  "additionalInterfaces": [
+    {
+      "transport": "JSONRPC",
+      "url": "https://mapa-lab.vercel.app/api/a2a"
+    }
+  ],
+  "x-artist": {
+    "name": "map — Mario Arturo Maldonado Parra",
+    "ens": "maarmapa.eth",
+    "web": "https://maarmapa.eth.limo"
+  },
+  "x-services": [
+    {
+      "type": "mcp",
+      "url": "https://mapa-lab.vercel.app/api/mcp",
+      "tools": [
+        "search_obras",
+        "get_obra"
+      ]
+    }
+  ],
+  "x-payments": {
+    "human": "link Mercado Pago (CLP)",
+    "agentic": "x402/USDC en Base — fase 2"
+  },
+  "x-trust": {
+    "erc8004": "pendiente de mint (Identity Registry 0x8004A169FB4a3325136EB29fA0ceB6D2e539a432)",
+    "provenance": "certificados on-chain por obra — en diseño"
+  },
+  "x-contact": "mario@boykot.cl"
 }
