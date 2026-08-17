@@ -2,8 +2,14 @@
 // Modelo vía OpenRouter (env OPENROUTER_API_KEY, CHAT_MODEL). Ruta flaca:
 // las tools ejecutan contra lib/obras; el modelo solo redacta.
 import { buscarObras, getObra, card, obras } from '@/lib/obras';
+import { rateLimit, tooManyRequests } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
+
+// Sin auth y cada POST son 2 llamadas a OpenRouter: 20 mensajes / 15 min por
+// IP. En memoria por instancia (mitiga abuso casual, no un ataque distribuido;
+// ver lib/rate-limit.ts). /api/mcp y /api/a2a son read-only y quedan abiertos.
+const limit = rateLimit({ name: 'chat', windowMs: 15 * 60 * 1000, max: 20 });
 
 const MODEL = process.env.CHAT_MODEL ?? 'deepseek/deepseek-chat';
 const SYSTEM = `Eres el asistente de Mapa Lab, el estudio de map (Mario Arturo
@@ -37,6 +43,8 @@ async function llm(messages: unknown[], stream: boolean, tools = true) {
 }
 
 export async function POST(req: Request) {
+  const gate = limit(req);
+  if (!gate.ok) return tooManyRequests(gate.retryAfterSec);
   try {
   const { messages } = await req.json() as { messages: { role: string; content: string }[] };
   const convo: unknown[] = [{ role: 'system', content: SYSTEM }, ...messages.slice(-20)];
