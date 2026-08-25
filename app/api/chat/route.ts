@@ -12,6 +12,8 @@ export const runtime = 'nodejs';
 const limit = rateLimit({ name: 'chat', windowMs: 15 * 60 * 1000, max: 20 });
 
 const MODEL = process.env.CHAT_MODEL ?? 'deepseek/deepseek-chat';
+// Tope defensivo de rondas de tools (mismo criterio que Hermes en boykot).
+const MAX_RONDAS = 3;
 const SYSTEM = `Eres el asistente de Mapa Lab, el estudio de map (Mario Arturo
 Maldonado Parra), artista chileno. Hablas español cercano y breve. Vendes SU
 obra: usa las tools para todo dato de obras (precio, estado, medidas) — JAMÁS
@@ -49,17 +51,34 @@ export async function POST(req: Request) {
   const { messages } = await req.json() as { messages: { role: string; content: string }[] };
   const convo: unknown[] = [{ role: 'system', content: SYSTEM }, ...messages.slice(-20)];
 
-  // Pasada 1 (sin stream): ¿necesita tools?
-  const first = await (await llm(convo, false)).json();
-  if (first.error) throw new Error(first.error.message ?? `openrouter ${first.error.code ?? ''}`);
-  const msg = first.choices?.[0]?.message;
+  // Rondas de tools. Antes era UNA sola pasada: si el modelo buscaba obras y
+  // después quería el detalle de una que encontró, no podía pedirlo — y eso se
+  // compensaba abajo pescando títulos por texto. Ahora encadena hasta MAX_RONDAS.
   const cards: unknown[] = [];
-  if (msg?.tool_calls?.length) {
+  const vistos = new Set<string>();
+  for (let ronda = 0; ronda < MAX_RONDAS; ronda++) {
+    const paso = await (await llm(convo, false)).json();
+    if (paso.error) throw new Error(paso.error.message ?? `openrouter ${paso.error.code ?? ''}`);
+    const msg = paso.choices?.[0]?.message;
+    if (!msg?.tool_calls?.length) break; // ya tiene lo que necesita
+
     convo.push(msg);
     for (const tc of msg.tool_calls) {
-      const result = runTool(tc.function.name, JSON.parse(tc.function.arguments || '{}'));
-      if (Array.isArray(result)) cards.push(...result.slice(0, 6));
-      else if (result && !(result as { error?: string }).error) cards.push(result);
+      let result: unknown;
+      try {
+        result = runTool(tc.function.name, JSON.parse(tc.function.arguments || '{}'));
+      } catch (e) {
+        result = { error: e instanceof Error ? e.message : 'tool_error' };
+      }
+      // Dedup por slug: con varias rondas la misma obra puede volver dos veces.
+      const sumar = (c: unknown) => {
+        const slug = (c as { slug?: string })?.slug;
+        if (slug && vistos.has(slug)) return;
+        if (slug) vistos.add(slug);
+        cards.push(c);
+      };
+      if (Array.isArray(result)) result.slice(0, 6).forEach(sumar);
+      else if (result && !(result as { error?: string }).error) sumar(result);
       convo.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify(result) });
     }
   }
@@ -97,8 +116,10 @@ export async function POST(req: Request) {
         textoFinal = respaldo;
         ctrl.enqueue(enc.encode(`data: ${JSON.stringify({ type: 'text', delta: respaldo })}\n\n`));
       }
-      // Toda obra MENCIONADA en el texto viaja con su card (foto siempre acompaña).
-      const ya = new Set(cards.map(c => (c as { slug?: string }).slug));
+      // Red de seguridad: si el modelo nombra una obra que no pidió por tool,
+      // igual mandamos su card. Antes esto tapaba la falta de rondas; ahora es
+      // solo eso, una red.
+      const ya = vistos;
       const limpio = (s: string) => s.toLowerCase().replace(/[©®]/g, '').trim();
       const texto = limpio(textoFinal);
       const mencionadas = obras
